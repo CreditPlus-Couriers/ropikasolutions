@@ -1,48 +1,72 @@
-<section class="max-w-xl mx-auto mt-10 p-6 bg-white shadow-md rounded">
-  <h2 class="text-xl font-bold text-orange-600 mb-4">KYC Verification</h2>
-  <p class="text-sm text-gray-600 mb-6">Please enter your mobile number and Aadhaar number for verification.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>KYC Collection – Credit Plus Couriers</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(180deg, #fffdfb 0%, #ffe7d4 100%);
+      background-attachment: fixed;
+    }
+    .animate-glow {
+      animation: glow 2s infinite ease-in-out;
+    }
+    @keyframes glow {
+      0% { box-shadow: 0 0 5px #ffa94d; }
+      50% { box-shadow: 0 0 20px #ff7300; }
+      100% { box-shadow: 0 0 5px #ffa94d; }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center px-4 py-10">
+  <div class="bg-white shadow-xl rounded-xl p-8 max-w-md w-full animate-fade-in">
+    <h2 class="text-2xl font-bold text-orange-600 text-center mb-4">KYC Verification</h2>
+    <p class="text-sm text-gray-600 text-center mb-6">Please enter your AWB number to begin your KYC process</p>
 
-  <form id="kycForm" onsubmit="submitKYC(event)">
-    <div class="mb-4">
-      <label for="awbKyc" class="block font-semibold mb-1">AWB Number</label>
-      <select id="awbKyc" required class="w-full border rounded px-3 py-2">
-        <option value="">Select</option>
-        <option value="AWB56200">AWB56200 - Sujata Kurle</option>
-        <option value="AWB56300">AWB56300 - Mandar Rangole</option>
-      </select>
+    <form id="kycForm" class="space-y-4">
+      <input type="text" id="awb" name="awb" maxlength="8" placeholder="Enter AWB Number" required
+        class="w-full border border-orange-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400" />
+
+      <input type="tel" id="mobile" name="mobile" placeholder="Mobile Number (10 digits)" pattern="[0-9]{10}" required
+        class="w-full border border-orange-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400" />
+
+      <input type="text" id="aadhaar" name="aadhaar" placeholder="Aadhaar Number (12 digits)" pattern="[0-9]{12}" required
+        class="w-full border border-orange-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400" />
+
+      <button type="submit"
+        class="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 rounded shadow-lg transition-all">
+        Submit KYC
+      </button>
+    </form>
+
+    <div id="successMessage" class="hidden mt-6 text-center text-green-600 font-semibold">
+      ✅ Your KYC has been submitted successfully. Thank you!
     </div>
 
-    <div class="mb-4">
-      <label for="mobile" class="block font-semibold mb-1">Mobile Number</label>
-      <input type="tel" id="mobile" maxlength="10" pattern="[0-9]{10}" required class="w-full border px-3 py-2 rounded" placeholder="Enter your mobile number">
+    <div id="errorMessage" class="hidden mt-4 text-center text-red-500 font-medium">
+      ❌ Invalid AWB. Only valid for AWB56300 and AWB56200.
     </div>
+  </div>
 
-    <div class="mb-4">
-      <label for="aadhaar" class="block font-semibold mb-1">Aadhaar Number</label>
-      <input type="text" id="aadhaar" maxlength="12" pattern="[0-9]{12}" required class="w-full border px-3 py-2 rounded" placeholder="Enter your 12-digit Aadhaar number">
-    </div>
+  <script>
+    const form = document.getElementById("kycForm");
+    const success = document.getElementById("successMessage");
+    const error = document.getElementById("errorMessage");
 
-    <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-6 rounded w-full">Submit KYC</button>
-  </form>
-
-  <div id="kycSuccess" class="mt-4 hidden text-green-600 font-semibold"></div>
-</section>
-
-<script>
-function submitKYC(event) {
-  event.preventDefault();
-  const awb = document.getElementById("awbKyc").value;
-  const mobile = document.getElementById("mobile").value;
-  const aadhaar = document.getElementById("aadhaar").value;
-  const msgBox = document.getElementById("kycSuccess");
-
-  if (!awb || !mobile || !aadhaar) return;
-
-  // You can later POST this to your server/backend
-  msgBox.innerText = `✅ KYC submitted for ${awb}. Mobile: ${mobile}, Aadhaar: ${aadhaar}`;
-  msgBox.classList.remove("hidden");
-
-  // Optional: clear form
-  document.getElementById("kycForm").reset();
-}
-</script>
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const awb = document.getElementById("awb").value.trim().toUpperCase();
+      if (awb === "AWB56300" || awb === "AWB56200") {
+        form.classList.add("hidden");
+        error.classList.add("hidden");
+        success.classList.remove("hidden");
+      } else {
+        error.classList.remove("hidden");
+      }
+    });
+  </script>
+</body>
+</html>
