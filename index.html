@@ -1,0 +1,48 @@
+<section class="max-w-xl mx-auto mt-10 p-6 bg-white shadow-md rounded">
+  <h2 class="text-xl font-bold text-orange-600 mb-4">KYC Verification</h2>
+  <p class="text-sm text-gray-600 mb-6">Please enter your mobile number and Aadhaar number for verification.</p>
+
+  <form id="kycForm" onsubmit="submitKYC(event)">
+    <div class="mb-4">
+      <label for="awbKyc" class="block font-semibold mb-1">AWB Number</label>
+      <select id="awbKyc" required class="w-full border rounded px-3 py-2">
+        <option value="">Select</option>
+        <option value="AWB56200">AWB56200 - Sujata Kurle</option>
+        <option value="AWB56300">AWB56300 - Mandar Rangole</option>
+      </select>
+    </div>
+
+    <div class="mb-4">
+      <label for="mobile" class="block font-semibold mb-1">Mobile Number</label>
+      <input type="tel" id="mobile" maxlength="10" pattern="[0-9]{10}" required class="w-full border px-3 py-2 rounded" placeholder="Enter your mobile number">
+    </div>
+
+    <div class="mb-4">
+      <label for="aadhaar" class="block font-semibold mb-1">Aadhaar Number</label>
+      <input type="text" id="aadhaar" maxlength="12" pattern="[0-9]{12}" required class="w-full border px-3 py-2 rounded" placeholder="Enter your 12-digit Aadhaar number">
+    </div>
+
+    <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-6 rounded w-full">Submit KYC</button>
+  </form>
+
+  <div id="kycSuccess" class="mt-4 hidden text-green-600 font-semibold"></div>
+</section>
+
+<script>
+function submitKYC(event) {
+  event.preventDefault();
+  const awb = document.getElementById("awbKyc").value;
+  const mobile = document.getElementById("mobile").value;
+  const aadhaar = document.getElementById("aadhaar").value;
+  const msgBox = document.getElementById("kycSuccess");
+
+  if (!awb || !mobile || !aadhaar) return;
+
+  // You can later POST this to your server/backend
+  msgBox.innerText = `✅ KYC submitted for ${awb}. Mobile: ${mobile}, Aadhaar: ${aadhaar}`;
+  msgBox.classList.remove("hidden");
+
+  // Optional: clear form
+  document.getElementById("kycForm").reset();
+}
+</script>
